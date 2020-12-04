@@ -14,7 +14,7 @@ api = FastAPI()
 
 @api.get("/")
 async def root():
-    return "Hola Principe, mira lo que se hacer"
+    return {"mensaje": "Hola Principe, mira lo que se hacer"}
 
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
