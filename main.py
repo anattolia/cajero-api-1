@@ -11,6 +11,11 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 api = FastAPI()
 
+
+@api.get("/")
+async def root():
+    return "Hola Principe, mira lo que se hacer"
+
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
     user_in_db = get_user(user_in.username)
