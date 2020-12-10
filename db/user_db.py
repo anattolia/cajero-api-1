@@ -27,3 +27,10 @@ def get_user(username: str):
 def update_user(user_in_db: UserInDB):
     database_users[user_in_db.username] = user_in_db
     return user_in_db
+
+def create_user(new_user_in_db: UserInDB):
+    database_users[new_user_in_db.username]= new_user_in_db
+    return new_user_in_db
+
+def get_all_users():
+    return database_users.values()        

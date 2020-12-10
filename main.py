@@ -1,8 +1,8 @@
 from db.user_db import UserInDB
-from db.user_db import update_user, get_user
+from db.user_db import update_user, get_user, create_user,get_all_users
 from db.transaction_db import TransactionInDB
 from db.transaction_db import save_transaction
-from models.user_models import UserIn, UserOut
+from models.user_models import UserIn, UserOut, UserInCreate
 from models.transaction_models import TransactionIn,TransactionOut
 
 import datetime
@@ -11,10 +11,9 @@ from fastapi import FastAPI
 from fastapi import HTTPException
 api = FastAPI()
 
-
-@api.get("/")
-async def root():
-    return {"mensaje": "Hola Principe, mira lo que se hacer"}
+from fastapi.middleware.cors import CORSMiddleware
+origins = ["http://localhost.tiangolo.com", "https://localhost.tiangolo.com","http://localhost", "http://localhost:8080",]
+api.add_middleware(CORSMiddleware, allow_origins=origins,allow_credentials=True, allow_methods=["*"], allow_headers=["*"],)
 
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
@@ -50,3 +49,13 @@ async def make_transaction(transaction_in: TransactionIn):
     transaction_in_db = save_transaction(transaction_in_db)
     transaction_out = TransactionOut(**transaction_in_db.dict())
     return transaction_out
+
+@api.get("/user/list")
+async def list_users():
+    users_in_db=get_all_users()
+    users_out=[]
+    for user in users_in_db:
+        user_out = UserOut(**user.dict())
+        users_out.append(user_out)
+    return users_out 
+
